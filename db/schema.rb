@@ -14,7 +14,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_171240) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "chats", force: :cascade do |t|
+  create_table "chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", default: "New chat", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -22,12 +22,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_171240) do
     t.index ["user_id"], name: "index_chats_on_user_id"
   end
 
-  create_table "messages", force: :cascade do |t|
+  create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "text", null: false
     t.text "response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "chat_id"
+    t.uuid "chat_id"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
   end
 
@@ -39,7 +39,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_171240) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "jti", null: false
+    t.string "jti"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
