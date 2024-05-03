@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include Devise::JWT::RevocationStrategies::JTIMatcher
+
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :omniauthable,
-         omniauth_providers: %i[google_oauth2]
+         :recoverable, :rememberable, :validatable,
+         :jwt_authenticatable, :omniauthable,
+         jwt_revocation_strategy: self, omniauth_providers: %i[google_oauth2]
 
   has_many :chats, -> { order(updated_at: :desc) }, dependent: :destroy
 
