@@ -1,0 +1,162 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+ - rubocop-performance
+ - rubocop-rails
+ - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - bin/**/*
+    - db/schema.rb
+    - db/seeds.rb
+    - lib/**/*
+    - log/**/*
+    - node_modules/**/*
+    - vendor/bundle/**/*
+    - config/initializers/active_admin.rb
+
+Style/Documentation:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
+RSpec:
+  Language:
+    ExampleGroups:
+      Regular:
+        - response # rswag
+    Examples:
+      Regular:
+        - run_test! # rswag
+        - run_test_with_request_body_validation! # our fix for rswag
+
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - development
+    - test
+    - staging
+    - prerelease
+
+Performance/OpenStruct:
+  Enabled: true
+  Exclude:
+   - spec/**/*
+
+Style/FormatStringToken:
+  Exclude:
+    - config/routes.rb
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+Metrics/CyclomaticComplexity:
+  Enabled: true
+  Max: 8
+
+Style/ArgumentsForwarding:
+  Enabled: true
+
+Style/Lambda:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/MixinGrouping:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 200
+  Enabled: false
+
+Metrics/ModuleLength:
+  Max: 200
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+  Enabled: false
+
+Layout/LineLength:
+  Max: 100
+  AllowedPatterns: ['^ *# '] # allow longer comments
+  Enabled: true
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Layout/LineContinuationLeadingSpace:
+  Enabled: false
+
+RSpec/NoExpectationExample:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 30
+
+Metrics/BlockLength:
+  Max: 26
+  Exclude:
+    - "spec/**/*"
+    - 'config/routes.rb'
+    - 'config/environments/*'
+    - 'app/public_api/**/*'
+    - 'config/initializers/devise.rb'
+    - 'config/initializers/omniauth.rb'
+    - 'app/admin/**/*'
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
+Rails/FilePath:
+  Enabled: false
+
+Rails/IndexBy:
+  Enabled: false
+
+Rails/Delegate:
+  Exclude:
+    - 'spec/support/sections/*' # ArgumentError: wrong number of arguments (given 2, expected 1)
+
+RSpec/AnyInstance:
+  Enabled: false
+
+Capybara/NegationMatcher:
+  EnforcedStyle: have_no
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 32
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 26
+
+RSpec/NestedGroups:
+  Max: 7
+
+RSpec/ExampleLength:
+  Max: 94
+
+RSpec/VariableName:
+  Enabled: false
+  EnforcedStyle: snake_case
