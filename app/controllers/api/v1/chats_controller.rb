@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::ChatsController < Api::V1::ApplicationController
   before_action :find_chat, only: [:show, :update, :destroy]
 
