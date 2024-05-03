@@ -46,10 +46,10 @@ gem 'bootsnap', require: false
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-jwt'
+gem 'jsonapi-serializer'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 gem 'rack-cors'
-gem 'jsonapi-serializer'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
