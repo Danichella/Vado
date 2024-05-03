@@ -2,6 +2,8 @@
 
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+    include RackSessionsFix
+
     def google_oauth2
       @user = User.from_omniauth(request.env['omniauth.auth'])
 
