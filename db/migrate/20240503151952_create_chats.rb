@@ -3,8 +3,6 @@
 class CreateChats < ActiveRecord::Migration[7.1]
   def change
     create_table :chats, id: :uuid do |t|
-      t.string :title, default: 'New chat', null: false
-
       t.timestamps
     end
 
