@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Actions
   class BaseActionService
     attr_accessor :options

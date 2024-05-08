@@ -2,9 +2,7 @@
 
 class CreateChats < ActiveRecord::Migration[7.1]
   def change
-    create_table :chats, id: :uuid do |t|
-      t.timestamps
-    end
+    create_table :chats, id: :uuid, &:timestamps
 
     add_reference :chats, :user, foreign_key: true
   end

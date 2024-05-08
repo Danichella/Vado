@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Actions
   class WeatherForecastService < BaseActionService
-    BASE_URL = 'https://api.open-meteo.com/'.freeze
+    BASE_URL = 'https://api.open-meteo.com/'
 
     def call
       function_name = options.fetch(:name)

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Actions
   class PerformActionService < BaseActionService
     FUNCTIONS_TO_SERVICE_MAP = {
       get_current_weather: Actions::WeatherForecastService,
       get_daily_weather: Actions::WeatherForecastService
-    }
+    }.freeze
 
     def call
       service = FUNCTIONS_TO_SERVICE_MAP[options[:name].to_sym]

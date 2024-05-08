@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OpenAI
   class AskService < BaseService
     attr_reader :client
@@ -47,7 +49,7 @@ module OpenAI
       result.unshift(
         {
           role: 'system',
-          content: "Current time: #{Time.now}"
+          content: "Current time: #{Time.zone.now}"
         }
       )
       result
@@ -72,11 +74,13 @@ module OpenAI
               properties: {
                 start_date: {
                   type: 'string',
-                  description: 'The start time of interval to get weather data. A day must be specified as an ISO8601 date (e.g. 2022-06-30).'
+                  description: 'The start time of interval to get weather data. A day must be ' \
+                               'specified as an ISO8601 date (e.g. 2024-04-30).'
                 },
                 end_date: {
                   type: 'string',
-                  description: 'The end time of interval to get weather data. A day must be specified as an ISO8601 date (e.g. 2022-06-30).'
+                  description: 'The end time of interval to get weather data. A day must be ' \
+                               'specified as an ISO8601 date (e.g. 2024-04-30).'
                 }
               },
               required: %w[start_date end_date]
