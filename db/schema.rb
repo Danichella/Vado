@@ -15,7 +15,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_171240) do
   enable_extension "plpgsql"
 
   create_table "chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title", default: "New chat", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -23,8 +22,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_171240) do
   end
 
   create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.text "text", null: false
-    t.text "response"
+    t.string "role", null: false
+    t.text "content", null: false
+    t.string "tool_call_id"
+    t.string "tool_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "chat_id"

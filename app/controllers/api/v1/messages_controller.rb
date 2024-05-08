@@ -1,44 +1,43 @@
 # frozen_string_literal: true
 
 class Api::V1::MessagesController < Api::V1::ApplicationController
-  before_action :find_chat
-  before_action :find_message, only: [:show, :update, :destroy]
+  before_action :find_message, only: [:destroy, :build_response]
 
   def index
-    message = @chat.messages
+    messages = current_user.messages.where(
+      role: %w[user assistant]
+    ).order(created_at: :desc).limit(20).to_a.reverse
 
     render_serializable_json(
-      message, { status: :ok }
-    )
-  end
-
-  def show
-    render_serializable_json(
-      @message, { status: :ok }
+      messages, { status: :ok }
     )
   end
 
   def create
-    message = @chat.messages.new(message_params)
+    message = chat.messages.new(message_params)
 
     if message.save
-      render_serializable_json(
-        message, { status: :created }
-      )
+      render_serializable_json(message, { status: :created })
     else
       render_error(422, message.errors.full_messages.to_sentence)
     end
   end
 
-  def update
-    if @message.update(chat_params)
-      render_serializable_json(
-        @message, {
-          status: :ok
-        }
-      )
+  def build_response
+    chat = @message.chat
+
+    OpenAI::BuildResponseService.new(chat).call
+
+    messages = chat.messages.where(
+      'created_at > ?', @message.created_at
+    ).where(
+      role: 'assistant'
+    ).order(created_at: :asc)
+
+    if messages.count.positive?
+      render_serializable_json(messages, { status: :ok })
     else
-      render_error(422, @message.errors.full_messages.to_sentence)
+      render_error(422, 'Response not received')
     end
   end
 
@@ -56,24 +55,22 @@ class Api::V1::MessagesController < Api::V1::ApplicationController
 
   private
 
-  def find_chat
-    @chat = current_user.chats.find_by(id: params[:chat_id])
+  def chat
+    @chat = current_user.chats.where(
+      'created_at >= ?', 30.minutes.ago
+    ).order(created_at: :desc).first
 
-    render_not_found_error('Chat') and return unless @chat
+    @chat ||= current_user.chats.create
   end
 
   def find_message
-    @message = @chat.messages.find_by(id: params[:id])
+    @message = current_user.messages.find_by(id: params[:id])
 
-    render_not_found_error('Message') and return unless @message
+    render_error(404, 'Message not found') and return unless @message
   end
 
   def message_params
-    params.permit(:text)
-  end
-
-  def render_not_found_error(item)
-    render_error(404, "#{item} not found")
+    params.permit(:content).merge(role: 'user')
   end
 
   def render_serializable_json(data, options)

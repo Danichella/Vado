@@ -8,7 +8,8 @@ class User < ApplicationRecord
          :jwt_authenticatable, :omniauthable,
          jwt_revocation_strategy: self, omniauth_providers: %i[google_oauth2]
 
-  has_many :chats, -> { order(updated_at: :desc) }, dependent: :destroy
+  has_many :chats, dependent: :destroy
+  has_many :messages, through: :chats
 
   def self.from_omniauth(access_token)
     data = access_token.info
