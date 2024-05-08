@@ -1,13 +1,15 @@
 module OpenAI
   class BuildResponseService < BaseService
     def call
+      requests = 0
       should_continue = true
-      until should_continue
+      while should_continue && requests < 5
         response = make_request
 
         next unless response
 
-        should_continue = process_request(response)
+        should_continue = process_request?(response)
+        requests += 1
       end
     end
 
@@ -15,13 +17,13 @@ module OpenAI
 
     def make_request
       AskService.new(chat).call
-    rescue error
-      handle_assistant_error(error)
+    rescue e => e
+      handle_assistant_error(e)
       nil
     end
 
     def process_request?(response)
-      data = response.dig('choices', '0', 'message')
+      data = response.fetch('choices', [])[0]['message']
 
       return false if data.blank?
 
@@ -50,7 +52,7 @@ module OpenAI
     end
 
     def perform_action(action_args)
-      Actions::PerformAction.new(action_args.deep_symbolize_keys).call
+      Actions::PerformActionService.new(action_args.deep_symbolize_keys).call
     end
 
     def handle_assistant_error(error)

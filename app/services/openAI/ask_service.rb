@@ -30,7 +30,7 @@ module OpenAI
     end
 
     def messages
-      chat.messages.map do |item|
+      result = chat.messages.map do |item|
         result = {
           role: item.role,
           content: item.content
@@ -43,6 +43,14 @@ module OpenAI
 
         result
       end
+
+      result.unshift(
+        {
+          role: 'system',
+          content: "Current time: #{Time.now}"
+        }
+      )
+      result
     end
 
     def tools

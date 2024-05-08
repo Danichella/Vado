@@ -1,18 +1,19 @@
 module Actions
   class PerformActionService < BaseActionService
     FUNCTIONS_TO_SERVICE_MAP = {
-      get_current_weather: Actions::WeatherActionsService
+      get_current_weather: Actions::WeatherForecastService,
+      get_daily_weather: Actions::WeatherForecastService
     }
 
     def call
-      service = FUNCTIONS_TO_SERVICE_MAP[options[:name]]
+      service = FUNCTIONS_TO_SERVICE_MAP[options[:name].to_sym]
 
       return no_service_error if service.nil?
 
       begin
         service.new(options).call.to_json
-      rescue error
-        error.to_json
+      rescue e => e
+        e.to_json
       end
     end
 

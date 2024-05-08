@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 class Api::V1::MessagesController < Api::V1::ApplicationController
-  before_action :find_message, only: [:destroy]
+  before_action :find_message, only: [:destroy, :build_response]
 
   def index
-    messages = current_user.messages.order(created_at: :desc).limit(20)
+    messages = current_user.messages.where(
+      role: %w[user assistant]
+    ).order(created_at: :desc).limit(20).to_a.reverse
 
     render_serializable_json(
       messages, { status: :ok }
@@ -15,11 +17,27 @@ class Api::V1::MessagesController < Api::V1::ApplicationController
     message = chat.messages.new(message_params)
 
     if message.save
-      render_serializable_json(
-        message, { status: :created }
-      )
+      render_serializable_json(message, { status: :created })
     else
       render_error(422, message.errors.full_messages.to_sentence)
+    end
+  end
+
+  def build_response
+    chat = @message.chat
+
+    OpenAI::BuildResponseService.new(chat).call
+
+    messages = chat.messages.where(
+      'created_at > ?', @message.created_at
+    ).where(
+      role: 'assistant'
+    ).order(created_at: :asc)
+
+    if messages.count.positive?
+      render_serializable_json(messages, { status: :ok })
+    else
+      render_error(422, 'Response not received')
     end
   end
 
@@ -39,7 +57,7 @@ class Api::V1::MessagesController < Api::V1::ApplicationController
 
   def chat
     @chat = current_user.chats.where(
-      'created_at<=?', 30.minutes.ago
+      'created_at >= ?', 30.minutes.ago
     ).order(created_at: :desc).first
 
     @chat ||= current_user.chats.create
@@ -52,7 +70,7 @@ class Api::V1::MessagesController < Api::V1::ApplicationController
   end
 
   def message_params
-    params.permit(:context).merge(role: 'user')
+    params.permit(:content).merge(role: 'user')
   end
 
   def render_serializable_json(data, options)
