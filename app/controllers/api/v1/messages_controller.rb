@@ -6,7 +6,7 @@ class Api::V1::MessagesController < Api::V1::ApplicationController
   def index
     messages = current_user.messages.where(
       role: %w[user assistant]
-    ).order(created_at: :desc).limit(20).to_a.reverse
+    ).order(created_at: :desc).limit(20)
 
     render_serializable_json(
       messages, { status: :ok }
