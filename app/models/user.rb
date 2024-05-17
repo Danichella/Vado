@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :messages, through: :chats
   has_many :notifications, dependent: :destroy
 
-  after_save -> (user) { Settings.create(user_id: user.id) }
+  after_save ->(user) { Settings.create(user_id: user.id) }
 
   def self.from_omniauth(access_token)
     data = access_token.info

@@ -29,7 +29,7 @@ class Users::SessionsController < Devise::SessionsController
     else
       render json: {
         status: 401,
-        message: "Email or password incorrect."
+        message: 'Email or password incorrect.'
       }, status: :unauthorized
     end
   end

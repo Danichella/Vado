@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSettingsTable < ActiveRecord::Migration[7.1]
   def change
     create_table :settings do |t|
@@ -7,6 +9,6 @@ class CreateSettingsTable < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_reference :settings, :user, foreign_key: true, index: {unique: true}
+    add_reference :settings, :user, foreign_key: true, index: { unique: true }
   end
 end
