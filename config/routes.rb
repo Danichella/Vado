@@ -21,9 +21,11 @@ Rails.application.routes.draw do
       resources :messages, only: [:index, :create, :destroy] do
         get :build_response, on: :member
       end
+      resources :notifications, only: [:index, :destroy] do
+        patch :readed, on: :member
+      end
+
+      get 'accounts/current', to: 'accounts#current'
     end
   end
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
