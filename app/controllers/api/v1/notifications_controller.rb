@@ -40,7 +40,7 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
   def find_notification
     @notification = current_user.notifications.find_by(id: params[:id])
 
-    render_error(404, 'Message not found') and return unless @notification
+    render_error(404, 'Notification not found') and return unless @notification
   end
 
   def render_serializable_json(data, options)

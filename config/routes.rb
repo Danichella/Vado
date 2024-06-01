@@ -25,6 +25,9 @@ Rails.application.routes.draw do
         patch :readed, on: :member
       end
 
+      get 'settings', to: 'settings#show'
+      patch 'settings', to: 'settings#update'
+      put 'settings', to: 'settings#update'
       get 'accounts/current', to: 'accounts#current'
     end
   end
