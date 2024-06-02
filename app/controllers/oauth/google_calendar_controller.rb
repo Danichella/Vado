@@ -37,7 +37,8 @@ class Oauth::GoogleCalendarController < Oauth::ApplicationController
       client_secret: ENV.fetch('GOOGLE_CLIENT_SECRET', nil),
       authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
       token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
-      scope: Google::Apis::CalendarV3::AUTH_CALENDAR_EVENTS,
+      scope: [Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY,
+              Google::Apis::CalendarV3::AUTH_CALENDAR_EVENTS],
       redirect_uri: callback_oauth_google_calendar_index_url,
       state: params.permit(:user_email).to_json
     }

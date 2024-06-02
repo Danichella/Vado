@@ -4,7 +4,8 @@ module Actions
   class PerformActionService < BaseActionService
     FUNCTIONS_TO_SERVICE_MAP = {
       get_current_weather: Actions::WeatherForecastService,
-      get_daily_weather: Actions::WeatherForecastService
+      get_daily_weather: Actions::WeatherForecastService,
+      get_calendar_events: Actions::GoogleCalendar::EventsListService
     }.freeze
 
     def call

@@ -79,6 +79,31 @@ module OpenAI
               required: %w[start_date end_date]
             }
           }
+        },
+        {
+          type: 'function',
+          function: {
+            name: 'get_calendar_events',
+            description: "This functions returns events from user's personal google calendar",
+            parameters: {
+              type: 'object',
+              properties: {
+                start_date: {
+                  type: 'string',
+                  description: 'The start time of interval to get events from calendar. A value' \
+                               'must be specified as an ISO dateTime ' \
+                               '(e.g. 2024-04-30T00:00:00.000Z).'
+                },
+                end_date: {
+                  type: 'string',
+                  description: 'The end time of interval to get events from calendar. A value' \
+                               'must be specified as an ISO dateTime ' \
+                               '(e.g. 2024-04-30T00:00:00.000Z).'
+                }
+              },
+              required: %w[start_date]
+            }
+          }
         }
       ]
     end
