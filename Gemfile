@@ -52,6 +52,7 @@ gem 'omniauth-rails_csrf_protection', '~> 1.0'
 gem 'rack-cors'
 
 gem 'faraday'
+gem 'google-api-client', require: 'google/apis/calendar_v3'
 gem 'ruby-openai'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]

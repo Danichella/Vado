@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::ApplicationController < ApplicationController
+class Api::V1::ApplicationController < ActionController::API
   before_action :authenticate_user!
 
   def render_serializable_json(data, options = {})

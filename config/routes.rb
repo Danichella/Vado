@@ -16,6 +16,13 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get 'up' => 'rails/health#show', as: :rails_health_check
 
+  namespace :oauth do
+    resources :google_calendar, only: [] do
+      get :redirect, on: :collection
+      get :callback, on: :collection
+    end
+  end
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :messages, only: [:index, :create, :destroy] do
@@ -25,6 +32,7 @@ Rails.application.routes.draw do
       resources :notifications, only: [:index, :destroy] do
         patch :readed, on: :member
       end
+      resources :connections, only: [:index, :destroy]
 
       get 'settings', to: 'settings#show'
       patch 'settings', to: 'settings#update'

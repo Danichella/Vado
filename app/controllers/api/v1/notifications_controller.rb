@@ -24,14 +24,14 @@ class Api::V1::NotificationsController < Api::V1::ApplicationController
   end
 
   def destroy
-    if @message.destroy
+    if @notification.destroy
       render_serializable_json(
-        @message, {
+        @notification, {
           status: :deleted
         }
       )
     else
-      render_error(422, @message.errors.full_messages.to_sentence)
+      render_error(422, @notification.errors.full_messages.to_sentence)
     end
   end
 

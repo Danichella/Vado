@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :chats, dependent: :destroy
   has_many :messages, through: :chats
   has_many :notifications, dependent: :destroy
+  has_many :connections, dependent: :destroy
 
   after_create ->(user) { Settings.create(user_id: user.id) }
 
