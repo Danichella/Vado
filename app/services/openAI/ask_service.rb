@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 module OpenAI
-  class AskService < BaseService
-    attr_reader :client
+  class AskService < ClientService
+    attr_reader :chat
 
     def initialize(chat)
-      super(chat)
-      init_client
+      super()
+      @chat = chat
     end
 
     def call
@@ -14,13 +14,6 @@ module OpenAI
     end
 
     private
-
-    def init_client
-      @client = ::OpenAI::Client.new(
-        access_token: ENV.fetch('OPENAI_API_KEY'),
-        log_errors: true
-      )
-    end
 
     def make_request
       client.chat(parameters: {

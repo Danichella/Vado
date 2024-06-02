@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::MessagesController < Api::V1::ApplicationController
-  before_action :find_message, only: [:destroy, :build_response]
+  before_action :find_message, only: [:destroy, :build_response, :voice_response]
 
   def index
     messages = current_user.messages.where(
@@ -14,6 +14,10 @@ class Api::V1::MessagesController < Api::V1::ApplicationController
   end
 
   def create
+    if params[:voice_record].present?
+      params[:content] = OpenAI::SpeechToTextService.new(params[:voice_record]).call
+    end
+
     message = chat.messages.new(message_params)
 
     if message.save
@@ -38,6 +42,16 @@ class Api::V1::MessagesController < Api::V1::ApplicationController
       render_serializable_json(messages, { status: :ok })
     else
       render_error(422, 'Response not received')
+    end
+  end
+
+  def voice_response
+    voice_file_url = OpenAI::TextToSpeechService.new(@message).call
+
+    if voice_file_url.present?
+      render json: { url: voice_file_url }, status: :ok
+    else
+      render json: { error: 'Cannot proceed this action' }, status: :unprocessable_entity
     end
   end
 

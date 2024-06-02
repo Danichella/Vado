@@ -37,6 +37,8 @@ Rails.application.configure do
 
   config.hosts << /[a-z0-9-.]+\.ngrok-free\.app/
 
+  Rails.application.routes.default_url_options[:host] = 'https://117d-45-12-26-64.ngrok-free.app'
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
