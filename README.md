@@ -32,3 +32,17 @@
 
 * Deployment instructions
 
+## Planned & Done
+
+- [x] Message creation
+- [x] Integration with language model GPT
+- [x] Response builder
+- [x] Speech to Text conversion
+- [x] Text to Speech conversion
+- [x] Integration with weather API
+- [x] Google oauth implementation (Google calendar)
+- [ ] Integration with google calendar
+- [ ] Integration with google maps
+- [ ] Integration with gmail
+- [ ] Notifications implementation
+
