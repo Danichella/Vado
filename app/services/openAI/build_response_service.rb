@@ -54,7 +54,7 @@ module OpenAI
     end
 
     def perform_action(action_args)
-      Actions::PerformActionService.new(action_args.deep_symbolize_keys).call
+      Actions::PerformActionService.new(chat.user, action_args.deep_symbolize_keys).call
     end
 
     def handle_assistant_error(error)

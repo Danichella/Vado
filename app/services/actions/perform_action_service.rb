@@ -13,7 +13,7 @@ module Actions
       return no_service_error if service.nil?
 
       begin
-        service.new(options).call.to_json
+        service.new(user, options).call.to_json
       rescue e => e
         e.to_json
       end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Oauth::GoogleCalendarController < ApplicationController
+class Oauth::GoogleCalendarController < Oauth::ApplicationController
   def redirect
     client = Signet::OAuth2::Client.new(client_options)
 

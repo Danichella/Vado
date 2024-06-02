@@ -2,9 +2,10 @@
 
 module Actions
   class BaseActionService
-    attr_accessor :options
+    attr_accessor :options, :user
 
-    def initialize(options = {})
+    def initialize(user, options = {})
+      @user = user
       @options = options
     end
 

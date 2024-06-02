@@ -73,7 +73,7 @@ module Actions
         params: {
           latitude: 49.84,
           longitude: 24.03,
-          timezone: 'EET'
+          timezone: user.settings.timezone || 'EET'
         }
       )
 

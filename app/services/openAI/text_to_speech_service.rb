@@ -32,7 +32,7 @@ module OpenAI
         parameters: {
           model: 'tts-1-hd',
           input: message.content,
-          voice: 'nova',
+          voice: 'alloy',
           response_format: 'aac'
         }
       )
