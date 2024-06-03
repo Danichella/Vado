@@ -2,9 +2,10 @@
 
 module Oauth
   class GoogleAccessTokenService
-    attr_accessor :connection
+    attr_accessor :connection, :provider
 
     def initialize(user, provider)
+      @provider = provider
       @connection = user.connections.find_by(provider:)
     end
 
@@ -13,10 +14,9 @@ module Oauth
     end
 
     def call
-      return if @connection.nil?
+      raise no_connection_error if @connection.nil?
 
       refresh_access_token if access_token_expired?
-      # refresh_access_token
 
       @connection.reload.access_token
     end
@@ -44,6 +44,15 @@ module Oauth
         token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
         refresh_token: @connection.refresh_token
       }
+    end
+
+    def no_connection_error
+      provider_name = @provider.tr('_', ' ')
+
+      StandardError.new(
+        "User did not connect application with #{provider_name}. Advice him to connect " \
+        "#{provider_name} in account settings tab to continue"
+      )
     end
   end
 end

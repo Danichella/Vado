@@ -33,8 +33,8 @@ module Actions
           {
             summary: event['summary'],
             creator: event['creator'],
-            start: event['start'],
-            end: event['end'],
+            start: event['start'].slice('date', 'dateTime'),
+            end: event['end'].slice('date', 'dateTime'),
             recurrence: event['recurrence']
           }
         end
@@ -46,7 +46,6 @@ module Actions
           page_token:
         }
 
-        arguments = JSON.parse(options.fetch(:arguments, '{}'))
         result[:timeZone] = user.settings.timezone if user.settings.timezone
         result[:timeMin] = arguments['start_date'] if arguments['start_date'].present?
         result[:timeMax] = arguments['end_date'] if arguments['end_date'].present?

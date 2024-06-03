@@ -6,13 +6,12 @@ module Actions
 
     def call
       function_name = options.fetch(:name)
-      arguments = JSON.parse(options.fetch(:arguments, '{}'))
 
       case function_name
       when 'get_current_weather'
         current_weather
       when 'get_daily_weather'
-        daily_weather(arguments)
+        daily_weather
       else
         raise no_function_error
       end
@@ -36,7 +35,7 @@ module Actions
       }
     end
 
-    def daily_weather(arguments)
+    def daily_weather
       query_params = {
         daily: 'weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,' \
                'apparent_temperature_min,sunrise,sunset,daylight_duration,sunshine_duration,' \

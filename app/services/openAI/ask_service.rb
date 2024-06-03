@@ -42,7 +42,8 @@ module OpenAI
       result.unshift(
         {
           role: 'system',
-          content: "Current time: #{Time.zone.now}"
+          content: "Current time: #{Time.zone.now}. If needed add links to response text using " \
+                   'markdown style (e.g. [text](https://example.com))'
         }
       )
       result
@@ -102,6 +103,57 @@ module OpenAI
                 }
               },
               required: %w[start_date]
+            }
+          }
+        },
+        {
+          type: 'function',
+          function: {
+            name: 'create_calendar_event',
+            description: "This functions creates event in user's personal google calendar",
+            parameters: {
+              type: 'object',
+              properties: {
+                start_date_time: {
+                  type: 'string',
+                  description: 'The start date time of event. A value must be specified' \
+                               'as an ISO dateTime (e.g. 2024-04-30T00:00:00).'
+                },
+                end_date_time: {
+                  type: 'string',
+                  description: 'The end date time of event. A value must be specified' \
+                               'as an ISO dateTime (e.g. 2024-04-30T00:00:00).'
+                },
+                start_date: {
+                  type: 'string',
+                  description: 'The start date of event. This property should be used if user ' \
+                               'does not specify time. A value must be specified as an ISO8601' \
+                               'date (e.g. 2024-04-30).'
+                },
+                end_date: {
+                  type: 'string',
+                  description: 'The end date of event. This property should be used if user ' \
+                               'does not specify time. This parameter required if start date ' \
+                               'present. A value must be specified as an ISO8601 ' \
+                               'date (e.g. 2024-04-30).'
+                },
+                attendee_emails: {
+                  type: 'array',
+                  description: 'The emails of users that must be added to event.',
+                  items: {
+                    type: 'string'
+                  }
+                },
+                title: {
+                  type: 'string',
+                  description: 'The title of event.'
+                },
+                description: {
+                  type: 'string',
+                  description: 'The description of event.'
+                }
+              },
+              required: %w[start_date_time end_date_time]
             }
           }
         }

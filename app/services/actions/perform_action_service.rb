@@ -5,7 +5,8 @@ module Actions
     FUNCTIONS_TO_SERVICE_MAP = {
       get_current_weather: Actions::WeatherForecastService,
       get_daily_weather: Actions::WeatherForecastService,
-      get_calendar_events: Actions::GoogleCalendar::EventsListService
+      get_calendar_events: Actions::GoogleCalendar::EventsListService,
+      create_calendar_event: Actions::GoogleCalendar::EventsCreationService
     }.freeze
 
     def call
@@ -15,7 +16,7 @@ module Actions
 
       begin
         service.new(user, options).call.to_json
-      rescue e => e
+      rescue StandardError => e
         e.to_json
       end
     end

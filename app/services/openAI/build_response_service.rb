@@ -19,7 +19,7 @@ module OpenAI
 
     def make_request
       AskService.new(chat).call
-    rescue e => e
+    rescue StandardError => e
       handle_assistant_error(e)
       nil
     end
