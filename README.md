@@ -42,7 +42,7 @@
 - [x] Integration with weather API
 - [x] Google oauth implementation (Google calendar)
 - [x] Integration with google calendar
-- [ ] Integration with google maps
+- [x] Integration with google maps
 - [ ] Integration with gmail
 - [ ] Notifications implementation
 

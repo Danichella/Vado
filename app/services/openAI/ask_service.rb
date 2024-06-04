@@ -156,6 +156,39 @@ module OpenAI
               required: %w[start_date_time end_date_time]
             }
           }
+        },
+        {
+          type: 'function',
+          function: {
+            name: 'build_maps_route',
+            description: "This functions return route build to destination from user's location",
+            parameters: {
+              type: 'object',
+              properties: {
+                destination_address: {
+                  type: 'string',
+                  description: 'The address query used to build route'
+                },
+                departure_time: {
+                  type: 'string',
+                  description: "The user's departure time from current location. A value must be " \
+                               'specified as an ISO dateTime (e.g. 2024-04-30T00:00:00Z).'
+                },
+                arrival_time: {
+                  type: 'string',
+                  description: "The user's arrival time to destination. A value must be specified" \
+                               'as an ISO dateTime (e.g. 2024-04-30T00:00:00Z).'
+                },
+                travel_mode: {
+                  type: 'string',
+                  description: 'The start travel transport type. ' \
+                               'TRANSIT mean travel by public transport',
+                  enum: %w[DRIVE BICYCLE WALK TRANSIT]
+                }
+              },
+              required: %w[destination_address]
+            }
+          }
         }
       ]
     end

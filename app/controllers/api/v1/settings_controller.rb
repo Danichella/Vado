@@ -30,7 +30,7 @@ class Api::V1::SettingsController < Api::V1::ApplicationController
   end
 
   def settings_params
-    params.permit(:timezone, :location)
+    params.permit(:timezone, location: [:latitude, :longitude])
   end
 
   def render_serializable_json(data, options)

@@ -6,7 +6,8 @@ module Actions
       get_current_weather: Actions::WeatherForecastService,
       get_daily_weather: Actions::WeatherForecastService,
       get_calendar_events: Actions::GoogleCalendar::EventsListService,
-      create_calendar_event: Actions::GoogleCalendar::EventsCreationService
+      create_calendar_event: Actions::GoogleCalendar::EventsCreationService,
+      build_maps_route: Actions::GoogleMaps::RouteService
     }.freeze
 
     def call
