@@ -8,6 +8,7 @@ services:
   - type: web
     name: vado
     runtime: ruby
+    region: frankfurt
     plan: free
     buildCommand: "./bin/render-build.sh"
     # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
