@@ -79,4 +79,6 @@ test:
 #
 production:
   <<: *default
-  url: <%= ENV.fetch('DATABASE_URL') &>
+  database: vado_production
+  username: vado
+  password: <%= ENV["VADO_DATABASE_PASSWORD"] %>
