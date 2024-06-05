@@ -1,0 +1,23 @@
+databases:
+  - name: vado
+    databaseName: vado_production
+    user: vado_db
+    plan: free
+
+services:
+  - type: web
+    name: vado
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
+    startCommand: "bundle exec rails server"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: vado_db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 4 # sensible default
