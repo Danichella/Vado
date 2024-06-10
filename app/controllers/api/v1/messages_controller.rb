@@ -70,11 +70,13 @@ class Api::V1::MessagesController < Api::V1::ApplicationController
   private
 
   def chat
-    @chat = current_user.chats.where(
-      'created_at >= ?', 30.minutes.ago
-    ).order(created_at: :desc).first
+    @chat = last_message.chat if last_message.created_at >= 20.minutes.ago
 
     @chat ||= current_user.chats.create
+  end
+
+  def last_message
+    @last_message ||= current_user.messages.order(created_at: :desc).first
   end
 
   def find_message

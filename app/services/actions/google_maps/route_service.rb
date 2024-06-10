@@ -47,11 +47,17 @@ module Actions
           languageCode: 'uk',
           origin: { location: { latLng: user.settings.location } },
           destination: { address: arguments.fetch('destination_address', nil) },
-          departureTime: arguments.fetch('departure_time', nil),
-          arrivalTime: arguments.fetch('arrival_time', nil),
+          departureTime: user_date_time(arguments.fetch('departure_time', nil)),
+          arrivalTime: user_date_time(arguments.fetch('arrival_time', nil)),
           travelMode: travel_mode,
           routingPreference: routing_preference
         }.to_json
+      end
+
+      def user_date_time(date_time)
+        return unless date_time
+
+        Time.new(date_time).in_time_zone(user.settings.timezone).strftime('%Y-%m-%dT%H:%M:%SZ')
       end
 
       def travel_mode
