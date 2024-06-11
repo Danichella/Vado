@@ -5,6 +5,6 @@ class MessageSerializer
   attributes :content, :role, :created_at
 
   attribute :time do |object|
-    object.created_at.strftime('%H:%M')
+    object.created_at.in_time_zone(object.settings.timezone).strftime('%H:%M')
   end
 end
