@@ -70,7 +70,7 @@ class Api::V1::MessagesController < Api::V1::ApplicationController
   private
 
   def chat
-    @chat = last_message.chat if last_message.created_at >= 20.minutes.ago
+    @chat = last_message.chat if last_message&.created_at&.>= 20.minutes.ago
 
     @chat ||= current_user.chats.create
   end
